@@ -20,7 +20,7 @@
     </div>
 
     <div style="display:none;" id="login_container">
-    <form action="">
+    <form id="login_form" action="">
         <input id="login_username" type="text" placeholder="username"/>
         <input id="login_password" type="password" placeholder="Password"/>
         <input id="login_trigger" type="submit" value="Submit">
@@ -37,6 +37,7 @@
         let registrationContainer = $("#registration-container");
         let registrationForm = $("#reg_form")
         let loginContainer = $("#login_container");
+        let loginForm = $("#login_form")
         // Registration Form Inputs
         let registerUsername = $("#register_username");
         let registerPassword = $("#register_password");
@@ -71,7 +72,27 @@
                      console.error(xhr.responseText);
                  }
              });
+
 }
+function loginUser(username, password) {
+    $.ajax({
+        type: 'POST',
+        url: "api/login_user.php",
+        data: {
+            username: username,
+            password: password
+        },
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            console.error(xhr.responseText);
+        }
+    });
+}
+
 
 
         /*****OnClickListeners*****/
@@ -94,8 +115,12 @@
             registrationForm.submit(function(e){
                 e.preventDefault();
                 // Send user data to the server
-                sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);
-                
+                sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);  
+            })
+            loginForm.submit(function(e){
+                e.preventDefault();
+                loginUser(loginUsername.val(),loginPassword.val());
+
             })
         })
         

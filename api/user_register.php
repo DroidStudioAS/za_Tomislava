@@ -113,6 +113,8 @@ function registerUser($username, $password, $email, $age, $isAdmin) {
     // Execute the statement
     if ($stmt->execute() === TRUE) {
         echo 'New record created successfully';
+        //save admin status to session;
+        $_SESSION['user_is_admin'] = $isAdmin;
     } else {
         echo "Error: " . $stmt->error;
     }

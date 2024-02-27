@@ -2,6 +2,8 @@
 require('../models/user.php');
 
 function loginUser($username, $password) {
+    session_start();
+
     // Connect to the database
     $server_name = 'localhost';
     $username_db = 'root';

@@ -54,6 +54,30 @@
         let loginPassword = $("#login_password");
         let loginTrigger = $("#login_trigger");
 
+        /********Helper Functions*******/
+        //status 1-check reg input status 2-check login input
+        function validateInput(status){
+            if(status===1){
+                if(registerUsername==="" || registerPassword==="" || registerEmail==="" || registerAge===""){
+                    alert('Please Fill Out The Entire Registration Form')
+                    return false;
+                }
+                if(registerPassword.length<6){
+                    alert('For Your Safety, Select A Password That Is At Least 6 Charachters Long');
+                    return false;
+                }
+                return true;
+
+            }else if(status===2){
+                if(loginUsername==="" || loginPassword===""){
+                    alert('Please Fill Out The Entire Login Form')
+                    return false;
+                }
+                return true;
+            }
+        }
+    
+
         /*********Asynch Functions***********/
         // Function to send user data via AJAX
          function sendUserData(username, password, email, age, isAdmin) {
@@ -69,7 +93,11 @@
                  },
                  success: function (response) {
                      // Handle success response
-                     console.log(response);
+                     if(response.includes('Error')){
+                        alert('Oops... Something went wrong.. Please Try Again')
+                     }else{
+                        window.location.href="content.php"
+                     }
                  },
                  error: function (xhr, status, error) {
                      // Handle error
@@ -92,6 +120,7 @@
                        }else{
                         //push to content.php
                         console.log(response)
+                        window.location.href='content.php'
                        }
                     },
                     error: function(xhr, status, error) {
@@ -125,13 +154,17 @@
             //registration
             registrationForm.submit(function(e){
                 e.preventDefault();
-                // Send user data to the server
-                sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);  
-            })
+                if(validateInput(1)){
+                    // Send user data to the server
+                    sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);  
+                }
+                })
             //login
             loginForm.submit(function(e){
                 e.preventDefault();
-                loginUser(loginUsername.val(),loginPassword.val());
+                if(validateInput(2)){
+                  loginUser(loginUsername.val(),loginPassword.val());
+                }
 
             })
         })

@@ -28,7 +28,11 @@
                 <input id="not_admin" type="radio" name="make_admin" value="No">
             </div>
             <input id="edit_trigger" type="submit"/>
-            <div>Change Users Password</div>
+            <div id="change_pass_toggle">Change Users Password</div>
+            <div style="display: none;" id="change_pass_container" class="change_pass_container">
+                <input id="new_pass" type="password">
+                <input id="change_pass_trigger" type="submit">
+            </div>
             <div>Delete User</div>
         </form>
     </div>
@@ -52,10 +56,18 @@
              } else {
                  $('#not_admin').prop('checked', true);
              }
-
-
+             //edit password logic
+             $("#change_pass_trigger").off('click').on('click',function(e){
+                    e.preventDefault()
+                    if($("#new_pass").val()===""){
+                        alert('Do Not Set An Empty String As A Password!')
+                        return;
+                    }else{
+                        changePassword(user.id,$("#new_pass").val());
+                    }
+                })
+            //patch logic 
              $("#edit_trigger").off('click').on('click',function(e){
-                e.preventDefault()
                 let isAdminValue = $('input[name="make_admin"]:checked').val();
                 if($("#new_username_input").val()==="" || $('#new_age_input').val()==="" || $("#new_email_input").val()==="" || $("input[name='make_admin']:checked").val()===undefined){
                     alert('please do not submit an empty field');
@@ -83,7 +95,7 @@
                                 '<p>Email: ' + user.email + '</p>' +
                                 '<p>Age: ' + user.age + '</p>' +
                                 '<p>Admin: ' + (user.isAdmin==1 ? 'Yes' : 'No') + '</p>'; // Display 'Yes' if isAdmin is 1, 'No' otherwise
-;
+                                ;
 
             // Create edit button
             let editButton = document.createElement('button');
@@ -121,30 +133,55 @@
               });
         }
         function editUser(userId, newUsername, newEmail, newAge, newIsAdmin) {
-    $.ajax({
-        type: 'POST',
-        url: 'api/patch_user.php',
-        data: {
-            userId: userId,
-            newUsername: newUsername,
-            newEmail: newEmail,
-            newAge: newAge,
-            newIsAdmin: newIsAdmin
-        },
-        success: function(response) {
-            // Handle success response
-            console.log(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText);
+            $.ajax({
+                type: 'POST',
+                url: 'api/patch_user.php',
+                data: {
+                    userId: userId,
+                    newUsername: newUsername,
+                    newEmail: newEmail,
+                    newAge: newAge,
+                    newIsAdmin: newIsAdmin
+                },
+                success: function(response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
         }
-    });
-}
-        /*****OnClickListeners******/
-        closeButton.off('click').on('click',function(){
-            editContainer.toggle()
-        })
+        function changePassword(userId, newPassword) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'api/change_password.php',
+                    data: {
+                        userId: userId,
+                        newPassword: newPassword
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+                /*****OnClickListeners******/
+                closeButton.off('click').on('click',function(){
+                    editContainer.toggle()
+                })
+                $("#change_pass_toggle").off('click').on('click',function(){
+                    $("#change_pass_container").toggle()
+                })
+               
+
+            
           
         
 

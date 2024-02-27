@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="public/styles.css"/>
 </head>
 <body>
-    <!-- Your HTML content here -->
     <h1>Hello, user!</h1>
+    <!--Filled with the users data during runtime-->
     <div id="user_data" class="user_data">
 
     </div>
+    <!--This Is the container for editing users, visible only if the dynamically generated edit button gets clicked-->
     <div style="display: none;" id="edit_user_container" class="edit_user_container">
         <img id="close_btn" class="close_button" src="public/resources/close.png"/>
         <h6>Enter Your New Information</h6>
          <form class="edit_form">
             <h1 id="user_h"></h1>
             <input id="new_username_input" type="text" placeholder="Enter New Username">
-            <input id="new_age_input" type="text" placeholder="Enter New Age"/>
-            <input id="new_email_input" type="text" placeholder="Enter New Email"/>
+            <input id="new_age_input" type="number" placeholder="Enter New Age"/>
+            <input id="new_email_input" type="email" placeholder="Enter New Email"/>
             <input id="edit_trigger" type="submit">
          </form>
          <div id="change_pass_toggle">Change Users Password</div>
@@ -33,10 +34,12 @@
     </div>
     <script>
         let closeButton = $("#close_btn")
-
+        /*****Helper functions******/
+        //gets activated when the edit button gets clicked for a user... displays the
+        //edit container + sets all the onclicklisteners for the container
         function handleEditClick(user){
             $("#edit_user_container").css('display','flex');
-
+            //set the input values to the users old data
             $('#new_username_input').val(user.username);
             $('#new_age_input').val(user.age);
             $('#new_email_input').val(user.email);
@@ -48,6 +51,7 @@
              $("#change_pass_trigger").off('click').on('click',function(e){
                     e.preventDefault()
                     if($("#new_pass").val()===""){
+                        //prevent sending empty new password
                         alert('Do Not Set An Empty String As A Password!')
                         return;
                     }else{
@@ -57,6 +61,7 @@
             //edit user logic
             $("#edit_trigger").off('click').on('click',function(e){
                 let isAdminValue = $('input[name="make_admin"]:checked').val();
+                //prevent sending empty params
                 if($("#new_username_input").val()==="" || $('#new_age_input').val()==="" || $("#new_email_input").val()===""){
                     e.preventDefault()
                     alert('please do not submit an empty field');
@@ -146,6 +151,20 @@
                 }
             });
         }
+        function endAllSessions() {
+        $.ajax({
+            type: 'GET',
+            url: 'api/end_session.php',
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    }
         //helper functions
         function displayUserData(userData) {
             // Parse the JSON response
@@ -188,6 +207,11 @@
                 })
         $('document').ready(function(){
             getUserData();
+            // Add event listener for beforeunload event
+            window.addEventListener('beforeunload', function(event) {
+                // Call the function to end all sessions
+                endAllSessions();
+            });
         })
     </script>
 </body>

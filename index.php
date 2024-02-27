@@ -12,6 +12,7 @@
 <body>
 <div class="form-container" id="registration-container">
     <h2>User Registration</h2>
+    <!--Registration Form-->
     <form id="reg_form" action="">
         <input id="register_username" type="text" placeholder="Username" required>
         <input id="register_password" type="password" placeholder="Password" required>
@@ -20,7 +21,7 @@
         <input id="register_trigger" type="submit" value="Register">
     </form>
 </div>
-
+<!--Login Form-->
 <div class="form-container" id="login_container" style="display:none;">
     <h2>User Login</h2>
     <form id="login_form" action="">
@@ -29,13 +30,12 @@
         <input id="login_trigger" type="submit" value="Login">
     </form>
 </div>
-
+<!--Toggles login and reg... always visible-->
 <div class="toggle-button" id="toggle_login_reg">
     Already Have An Account? Click Here To Login!
 </div>
     <script>
         let onRegister = true;
-
         //Ui references
         let toggleButton = $('#toggle_login_reg');
         let registrationContainer = $("#registration-container");
@@ -56,6 +56,8 @@
 
         /********Helper Functions*******/
         //status 1-check reg input status 2-check login input
+        //the form can not be submited if it is not set, but this is
+        //an extra safety precaution
         function validateInput(status){
             if(status===1){
                 if(registerUsername.val()==="" || registerPassword.val()==="" || registerEmail.val()==="" || registerAge.val()===""){
@@ -79,7 +81,7 @@
     
 
         /*********Asynch Functions***********/
-        // Function to send user data via AJAX
+        // Function to send user data via AJAX, (register)
          function sendUserData(username, password, email, age, isAdmin) {
              $.ajax({
                  type: 'POST',
@@ -96,7 +98,9 @@
                      if(response.includes('Error')){
                         alert('Oops... Something went wrong.. Please Try Again')
                      }else{
+                        //set the username in the frontend session
                         sessionStorage.setItem('username',username);
+                        //push to content
                         window.location.href="content.php"
 
                      }

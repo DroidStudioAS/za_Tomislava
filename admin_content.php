@@ -14,18 +14,36 @@
     </div>
     <script>
         let userContainer = $("#user_container");
-
-        function displayUsers(userData){
-            let users = JSON.parse(userData)
-            users.forEach(function(user){
-                let userElement = document.createElement('div');
-                userElement.innerHTML = '<p>Username: ' + user.username + '</p>' +
-                                        '<p>Email: ' + user.email + '</p>' +
-                                        '<p>Age: ' + user.age + '</p>';
-                userContainer.append(userElement);           
-
-            })
+       
+        function handleEditUser(user){
+            console.log(user)
         }
+        function displayUsers(userData) {
+            let users = JSON.parse(userData);
+            users.forEach(function(user) {
+            let userElement = document.createElement('div');
+            userElement.className = 'user';
+            userElement.innerHTML = '<p>Username: ' + user.username + '</p>' +
+                                '<p>Email: ' + user.email + '</p>' +
+                                '<p>Age: ' + user.age + '</p>';
+
+            // Create edit button
+            let editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            // Add click event listener to edit button
+            editButton.addEventListener('click', function() {
+                // Call a function to handle edit action for this user
+                handleEditUser(user);
+            });
+
+            // Append edit button to user element
+            userElement.append(editButton);
+
+            // Append user element to container
+            userContainer.append(userElement);
+        });
+    }
+
 
         /*****Asynch Functions*******/
         function getAllUsers() {

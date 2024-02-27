@@ -75,6 +75,7 @@
              $("#edit_trigger").off('click').on('click',function(e){
                 let isAdminValue = $('input[name="make_admin"]:checked').val();
                 if($("#new_username_input").val()==="" || $('#new_age_input').val()==="" || $("#new_email_input").val()==="" || $("input[name='make_admin']:checked").val()===undefined){
+                    e.preventDefault();
                     alert('please do not submit an empty field');
                     return
                 }else{
@@ -96,11 +97,21 @@
             if(user.isAdmin===0){
                 console.log('not')
             }
-            userElement.innerHTML = '<p>Username: ' + user.username + '</p>' +
+            if(user.username===sessionStorage.getItem('username')){
+                userElement.innerHTML = '<h3>Your Acount</h3>' +
+                                '<p>Username: ' + user.username + '</p>' +
                                 '<p>Email: ' + user.email + '</p>' +
                                 '<p>Age: ' + user.age + '</p>' +
                                 '<p>Admin: ' + (user.isAdmin==1 ? 'Yes' : 'No') + '</p>'; // Display 'Yes' if isAdmin is 1, 'No' otherwise
                                 ;
+            }else{
+                userElement.innerHTML = '<p>Username: ' + user.username + '</p>' +
+                                '<p>Email: ' + user.email + '</p>' +
+                                '<p>Age: ' + user.age + '</p>' +
+                                '<p>Admin: ' + (user.isAdmin==1 ? 'Yes' : 'No') + '</p>'; // Display 'Yes' if isAdmin is 1, 'No' otherwise
+                                ;
+            }
+
 
             // Create edit button
             let editButton = document.createElement('button');

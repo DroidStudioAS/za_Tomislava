@@ -21,7 +21,7 @@
             <input id="new_username_input" type="text" placeholder="Enter New Username">
             <input id="new_age_input" type="text" placeholder="Enter New Age"/>
             <input id="new_email_input" type="text" placeholder="Enter New Email"/>
-            <input type="submit">
+            <input id="edit_trigger" type="submit">
          </form>
          <div id="change_pass_toggle">Change Users Password</div>
          <div style="display: none;" id="change_pass_container" class="change_pass_container">
@@ -54,6 +54,19 @@
                         changePassword(user.id,$("#new_pass").val());
                     }
                 })
+            //edit user logic
+            $("#edit_trigger").off('click').on('click',function(e){
+                let isAdminValue = $('input[name="make_admin"]:checked').val();
+                if($("#new_username_input").val()==="" || $('#new_age_input').val()==="" || $("#new_email_input").val()===""){
+                    e.preventDefault()
+                    alert('please do not submit an empty field');
+                    return
+                }   
+                //if this line is reached, no empty fields are present             
+                editUser(user.id,$("#new_username_input").val(),$("#new_email_input").val(),$('#new_age_input').val(),0)  
+                //reset this to fetch the user data on refresh    
+                sessionStorage.setItem('username',$("#new_username_input").val())                
+             })
 
         }
         //async Functions
@@ -112,6 +125,28 @@
                }
            });
         }
+        function editUser(userId, newUsername, newEmail, newAge, newIsAdmin) {
+            $.ajax({
+                type: 'POST',
+                url: 'api/patch_user.php',
+                data: {
+                    userId: userId,
+                    newUsername: newUsername,
+                    newEmail: newEmail,
+                    newAge: newAge,
+                    newIsAdmin: newIsAdmin
+                },
+                success: function(response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+        //helper functions
         function displayUserData(userData) {
             // Parse the JSON response
             const user = JSON.parse(userData);
@@ -142,7 +177,7 @@
         }
         /****OnClickListeners******/
          /*****OnClickListeners******/
-         closeButton.off('click').on('click',function(){
+        closeButton.off('click').on('click',function(){
                     $("#edit_user_container").toggle()
                 })
         $("#change_pass_toggle").off('click').on('click',function(){

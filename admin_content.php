@@ -14,13 +14,12 @@
 
     </div>
     <div style="display: none;" id="edit_user_container" class="edit_user_container">
-        <img class="close_button" src="public/resources/close.png"/>
+        <img id="close_btn" class="close_button" src="public/resources/close.png"/>
         <form class="edit_form">
             <h1 id="user_h"></h1>
-            <input type="text" placeholder="Enter New Username">
-            <input type="text" placeholder="Enter New Age"/>
-            <input type="text" placeholder="Enter New Email"/>
-            <input type="text" placeholder="Enter New Password"/>
+            <input id="new_username_input" type="text" placeholder="Enter New Username">
+            <input id="new_age_input" type="text" placeholder="Enter New Age"/>
+            <input id="new_email_input" type="text" placeholder="Enter New Email"/>
             <h5 style="text-align:center">Make Admin?</h5>
             <div class="radio-group">
                 <label for="make_admin"> Yes </label>
@@ -29,17 +28,21 @@
                 <input id="not_admin" type="radio" name="make_admin" value="No">
             </div>
             <input type="submit"/>
+            <div>Change Users Password</div>
+            <div>Delete User</div>
         </form>
     </div>
     <script>
         let userContainer = $("#user_container");
         let editContainer = $("#edit_user_container")
+        let closeButton = $("#close_btn")
        
         /*****Helper functions******/
         function handleEditUser(user){
             console.log(user)
             editContainer.css('display','flex');
             $('#user_h').text("User: " + user.username)
+
 
         }
         //render all users fetched by getAllUsers();
@@ -92,10 +95,17 @@
                   }
               });
         }
+        /*****OnClickListeners******/
+        closeButton.off('click').on('click',function(){
+            editContainer.toggle()
+        })
+          
+        
 
     
     $('document').ready(function(){
         getAllUsers();
+       
     })
     </script>
 </body>

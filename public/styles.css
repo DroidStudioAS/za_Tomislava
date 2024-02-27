@@ -98,7 +98,7 @@ body {
 }
 
 .edit_user_container {
-    position: absolute;
+    position: fixed;
     top: 20vh;
     left: 25vw;
     height: 60vh;

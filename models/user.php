@@ -1,6 +1,7 @@
 <?php
 class User {
     // Properties
+    public $id; 
     public $username;
     public $password;
     public $email;
@@ -8,7 +9,8 @@ class User {
     public $isAdmin;
 
     // Constructor
-    public function __construct($username, $password, $email, $age, $isAdmin) {
+    public function __construct($id, $username, $password, $email, $age, $isAdmin) {
+        $this->id = $id; // Initialize the id property
         $this->username = $username;
         $this->password = $password;
         $this->email = $email;
@@ -17,6 +19,14 @@ class User {
     }
 
     // Getters and setters (optional)
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function getUsername() {
         return $this->username;
     }

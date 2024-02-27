@@ -20,7 +20,7 @@ function editUser($userId, $newUsername, $newEmail, $newAge, $newIsAdmin) {
 
     // Execute the statement
     if ($stmt->execute() === TRUE) {
-        echo 'User updated successfully';
+        echo "User updated successfully. User ID: $userId, New Username: $newUsername, New Email: $newEmail, New Age: $newAge, New Is Admin: $newIsAdmin";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -30,8 +30,8 @@ function editUser($userId, $newUsername, $newEmail, $newAge, $newIsAdmin) {
     $conn->close();
 }
 
-// Endpoint
-if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
+//endpoint
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get individual parameters from the request
     $userId = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $newUsername = filter_input(INPUT_POST, 'newUsername', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -41,5 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
 
     // Call the editUser function with individual parameters
     editUser($userId, $newUsername, $newEmail, $newAge, $newIsAdmin);
+} else {
+    echo "Invalid request method";
 }
 

@@ -27,7 +27,7 @@
                 <label for="not_admin"> No </label>
                 <input id="not_admin" type="radio" name="make_admin" value="No">
             </div>
-            <input type="submit"/>
+            <input id="edit_trigger" type="submit"/>
             <div>Change Users Password</div>
             <div>Delete User</div>
         </form>
@@ -42,8 +42,33 @@
             console.log(user)
             editContainer.css('display','flex');
             $('#user_h').text("User: " + user.username)
+            //set the values to the old value, so they can be sent as params to the patch
+             $('#new_username_input').val(user.username);
+             $('#new_age_input').val(user.age);
+             $('#new_email_input').val(user.email);
+             // Set the radio button for isAdmin based on the user's current isAdmin value
+             if (user.isAdmin === 1) {
+                 $('#make_admin').prop('checked', true);
+             } else {
+                 $('#not_admin').prop('checked', true);
+             }
 
 
+             $("#edit_trigger").off('click').on('click',function(e){
+                e.preventDefault()
+                let isAdminValue = $('input[name="make_admin"]:checked').val();
+                if($("#new_username_input").val()==="" || $('#new_age_input').val()==="" || $("#new_email_input").val()==="" || $("input[name='make_admin']:checked").val()===undefined){
+                    alert('please do not submit an empty field');
+                    return
+                }else{
+                    if(isAdminValue==="Yes"){
+                        editUser(user.id,$("#new_username_input").val(),$("#new_email_input").val(),$('#new_age_input').val(),1)
+                    }else{
+                        editUser(user.id,$("#new_username_input").val(),$("#new_email_input").val(),$('#new_age_input').val(),0)
+                    }
+                }
+                console.log(user.id +$("#new_username_input").val() +  $('#new_age_input').val() + $("#new_email_input").val() + $("input[name='make_admin']:checked").val())
+             })
         }
         //render all users fetched by getAllUsers();
         function displayUsers(userData) {
@@ -95,6 +120,27 @@
                   }
               });
         }
+        function editUser(userId, newUsername, newEmail, newAge, newIsAdmin) {
+    $.ajax({
+        type: 'POST',
+        url: 'api/patch_user.php',
+        data: {
+            userId: userId,
+            newUsername: newUsername,
+            newEmail: newEmail,
+            newAge: newAge,
+            newIsAdmin: newIsAdmin
+        },
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            console.error(xhr.responseText);
+        }
+    });
+}
         /*****OnClickListeners******/
         closeButton.off('click').on('click',function(){
             editContainer.toggle()

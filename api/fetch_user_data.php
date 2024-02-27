@@ -25,7 +25,7 @@ function getAllUsersData() {
     if ($result->num_rows > 0) {
         // Loop through each row and create a user object
         while ($row = $result->fetch_assoc()) {
-            $user = new User($row['user_username'], $row['user_password'], $row['user_email'], $row['user_age'], $row['user_is_admin']);
+            $user = new User($row['user_id'],$row['user_username'], $row['user_password'], $row['user_email'], $row['user_age'], $row['user_is_admin']);
             // Add the user object to the users array
             $users[] = $user;
         }

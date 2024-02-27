@@ -1,7 +1,8 @@
 <?php
 require('../models/user.php');
 
-function getAllUsers() {
+// Function to fetch data of all users from the database
+function getAllUsersData() {
     // Connect to the database
     $server_name = 'localhost';
     $username_db = 'root';
@@ -14,38 +15,34 @@ function getAllUsers() {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare and execute the SQL statement to select all users
+    // Query to fetch data of all users
     $sql = "SELECT * FROM users";
     $result = $conn->query($sql);
-    
-    // Close the connection
-    $conn->close();
+
+    $users = array();
+
     // Check if there are any rows returned
     if ($result->num_rows > 0) {
-        // Fetch all rows as an associative array
-        $users = array();
+        // Loop through each row and create a user object
         while ($row = $result->fetch_assoc()) {
-            $users[] = $row;
+            $user = new User($row['user_username'], $row['user_password'], $row['user_email'], $row['user_age'], $row['user_is_admin']);
+            // Add the user object to the users array
+            $users[] = $user;
         }
-        return $users;
-    } else {
-        // No users found
-        return array();
     }
 
+    // Close the connection
+    $conn->close();
 
+    // Return the array of user objects as JSON
+    return json_encode($users);
 }
 
 // Endpoint
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Call the getAllUsers function to fetch all users
-    $allUsers = getAllUsers();
-    
-    // Return the data as JSON
-    echo json_encode($allUsers);
-} else {
-    // Method not allowed
-    http_response_code(405); // Method Not Allowed
-    echo "Method not allowed";
+    // Call the function to fetch all user data
+    $userData = getAllUsersData();
+    // Output the JSON data
+    echo $userData;
 }
 

@@ -6,29 +6,33 @@
     <title>Your Title Here</title>
     <!--Jquery import-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="public/styles.css"/>
     <?php require('models/user.php'); ?>
 </head>
 <body>
-    <div id="registration-container">
+<div class="form-container" id="registration-container">
+    <h2>User Registration</h2>
     <form id="reg_form" action="">
-        <input id="register_username" type="text" placeholder="username"/>
-        <input id="register_password" type="password" placeholder="Password"/>
-        <input id="register_email" type="email" placeholder="Email"/>
-        <input id="register_age" type="number" placeholder="Age"/>
-        <input id="register_trigger" type="submit" value="Submit">
+        <input id="register_username" type="text" placeholder="Username" required>
+        <input id="register_password" type="password" placeholder="Password" required>
+        <input id="register_email" type="email" placeholder="Email" required>
+        <input id="register_age" type="number" placeholder="Age" required>
+        <input id="register_trigger" type="submit" value="Register">
     </form>
-    </div>
+</div>
 
-    <div style="display:none;" id="login_container">
+<div class="form-container" id="login_container" style="display:none;">
+    <h2>User Login</h2>
     <form id="login_form" action="">
-        <input id="login_username" type="text" placeholder="username"/>
-        <input id="login_password" type="password" placeholder="Password"/>
-        <input id="login_trigger" type="submit" value="Submit">
+        <input id="login_username" type="text" placeholder="Username" required>
+        <input id="login_password" type="password" placeholder="Password" required>
+        <input id="login_trigger" type="submit" value="Login">
     </form>
+</div>
 
-    </div>
-
-    <div id="toggle_login_reg">Already Have An Account? Click Here To Login!</div>
+<div class="toggle-button" id="toggle_login_reg">
+    Already Have An Account? Click Here To Login!
+</div>
     <script>
         let onRegister = true;
 

@@ -96,7 +96,9 @@
                      if(response.includes('Error')){
                         alert('Oops... Something went wrong.. Please Try Again')
                      }else{
+                        sessionStorage.setItem('username',username);
                         window.location.href="content.php"
+
                      }
                  },
                  error: function (xhr, status, error) {
@@ -120,6 +122,7 @@
                        }else{
                         //push to content.php
                         console.log(response)
+                        sessionStorage.setItem('username',username);
                         window.location.href='content.php'
                        }
                     },

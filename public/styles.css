@@ -55,11 +55,33 @@ body {
 }
 
 /*admin content*/
+.user_container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    width: 80vw;
+
+    position: absolute;
+    left: 10vw;
+}
+
+.close_button {
+    width: 30px;
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+}
+
 .user {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
+
+    width: 80vw;
+    text-align: center;
 }
 
 .user p {
@@ -84,7 +106,12 @@ body {
 
     display: flex;
     flex-flow: column nowrap !important;
-    justify-content: center;
+    justify-content: ce;
+    align-items: center;
+
+    background: #fff;
+    border-radius: 12px;
+    padding: 2%;
 
 }
 
@@ -92,4 +119,10 @@ body {
     display: flex;
     flex-flow: column nowrap !important;
     justify-content: center;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -10,16 +10,24 @@
 <body>
     <!-- Your HTML content here -->
     <h1>Hello, admin!</h1>
-    <div id="user_container">
+    <div class="user_container" id="user_container">
 
     </div>
     <div style="display: none;" id="edit_user_container" class="edit_user_container">
+        <img class="close_button" src="public/resources/close.png"/>
         <form class="edit_form">
             <h1 id="user_h"></h1>
-            <input type="text"/>
-            <input type="text"/>
-            <input type="text"/>
-            <input type="text"/>
+            <input type="text" placeholder="Enter New Username">
+            <input type="text" placeholder="Enter New Age"/>
+            <input type="text" placeholder="Enter New Email"/>
+            <input type="text" placeholder="Enter New Password"/>
+            <h5 style="text-align:center">Make Admin?</h5>
+            <div class="radio-group">
+                <label for="make_admin"> Yes </label>
+                <input id="make_admin" type="radio" name="make_admin" value="Yes">
+                <label for="not_admin"> No </label>
+                <input id="not_admin" type="radio" name="make_admin" value="No">
+            </div>
             <input type="submit"/>
         </form>
     </div>
@@ -31,6 +39,7 @@
         function handleEditUser(user){
             console.log(user)
             editContainer.css('display','flex');
+            $('#user_h').text("User: " + user.username)
 
         }
         //render all users fetched by getAllUsers();

@@ -106,8 +106,9 @@ body {
 
     display: flex;
     flex-flow: column nowrap !important;
-    justify-content: ce;
+    justify-content: center;
     align-items: center;
+    text-align: center;
 
     background: #fff;
     border-radius: 12px;

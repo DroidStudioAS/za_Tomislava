@@ -33,7 +33,8 @@
                 <input id="new_pass" type="password">
                 <input id="change_pass_trigger" type="submit">
             </div>
-            <div>Delete User</div>
+            <div id="delete_user_toggle">Delete User</div>
+            <input style="display: none;" id="delete_trigger" type="submit" value="Are You Sure?"/>
         </form>
     </div>
     <script>
@@ -56,6 +57,10 @@
              } else {
                  $('#not_admin').prop('checked', true);
              }
+             //delete user logic
+             $("#delete_trigger").off('click').on('click',function(e){
+                deleteUser(user.id);
+             });
              //edit password logic
              $("#change_pass_trigger").off('click').on('click',function(e){
                     e.preventDefault()
@@ -116,6 +121,24 @@
 
 
         /*****Asynch Functions*******/
+        function deleteUser(userId) {
+            $.ajax({
+                type: 'POST',
+                url: 'api/delete_user.php',
+                data: {
+                    userId: userId
+                },
+                success: function(response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
         function getAllUsers() {
               $.ajax({
                   type: 'GET',
@@ -178,6 +201,9 @@
                 })
                 $("#change_pass_toggle").off('click').on('click',function(){
                     $("#change_pass_container").toggle()
+                })
+                $("#delete_user_toggle").off('click').on('click',function(){
+                    $("#delete_trigger").toggle()
                 })
                
 

@@ -50,8 +50,8 @@
         let loginPassword = $("#login_password");
         let loginTrigger = $("#login_trigger");
 
-        //asynch functions
-         // Function to send user data via AJAX
+        /*********Asynch Functions***********/
+        // Function to send user data via AJAX
          function sendUserData(username, password, email, age, isAdmin) {
              $.ajax({
                  type: 'POST',
@@ -73,25 +73,31 @@
                  }
              });
 
-}
-function loginUser(username, password) {
-    $.ajax({
-        type: 'POST',
-        url: "api/login_user.php",
-        data: {
-            username: username,
-            password: password
-        },
-        success: function(response) {
-            // Handle success response
-            console.log(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText);
-        }
-    });
-}
+            }
+            function loginUser(username, password) {
+                $.ajax({
+                    type: 'POST',
+                    url: "api/login_user.php",
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(response) {
+                       if(response==="Invalid username or password"){
+                        alert('Invalid username or password')
+                       }else{
+                        //push to content.php
+                        console.log(response)
+                       }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        /*********End Of Asynch Functions***********/
+
 
 
 
@@ -112,11 +118,13 @@ function loginUser(username, password) {
         })
 
         $('document').ready(function(){
+            //registration
             registrationForm.submit(function(e){
                 e.preventDefault();
                 // Send user data to the server
                 sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);  
             })
+            //login
             loginForm.submit(function(e){
                 e.preventDefault();
                 loginUser(loginUsername.val(),loginPassword.val());

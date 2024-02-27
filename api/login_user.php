@@ -35,6 +35,9 @@ function loginUser($username, $password) {
         
         // Verify the password
         if (password_verify($password, $user['user_password'])) {
+            //store the id and admin status in a session variable 
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_is_admin'] = $user['user_is_admin'];
             // Password is correct, return the user data
             return $user;
         } else {

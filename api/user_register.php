@@ -1,7 +1,96 @@
 <?php
 require('../models/user.php');
 
+function isUsernameTaken($username) {
+    // Connect to the database
+    $server_name = 'localhost';
+    $username_db = 'root';
+    $password_db = '';
+    $dbname = 'assignment';
+
+    $conn = new mysqli($server_name, $username_db, $password_db, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare and bind the SQL statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE user_username = ?");
+    $stmt->bind_param('s', $username);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
+    // Check if there are any rows returned
+    if ($result->num_rows > 0) {
+        // Username is taken
+        return true;
+    } else {
+        // Username is not taken
+        return false;
+    }
+
+
+}
+
+function isEmailTaken($email) {
+    // Connect to the database
+    $server_name = 'localhost';
+    $username_db = 'root';
+    $password_db = '';
+    $dbname = 'assignment';
+
+    $conn = new mysqli($server_name, $username_db, $password_db, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare and bind the SQL statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE user_email = ?");
+    $stmt->bind_param('s', $email);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
+
+    // Check if there are any rows returned
+    if ($result->num_rows > 0) {
+        // Email is taken
+        return true;
+    } else {
+        // Email is not taken
+        return false;
+    }
+
+
+}
+
 function registerUser($username, $password, $email, $age, $isAdmin) {
+    // Check if the username is already taken
+    if (isUsernameTaken($username)) {
+        echo "Username is already in use";
+        return;
+    }
+
+    // Check if the email is already taken
+    if (isEmailTaken($email)) {
+        echo "Email is already in use";
+        return;
+    }
+
     // Connect to the database
     $server_name = 'localhost';
     $username_db = 'root';

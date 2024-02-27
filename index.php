@@ -93,16 +93,9 @@
         $('document').ready(function(){
             registrationForm.submit(function(e){
                 e.preventDefault();
-                let user = {
-                    username: registerUsername.val(),
-                    password: registerPassword.val(),
-                    email: registerEmail.val(),
-                    age: registerAge.val(),
-                    isAdmin: 0
-                };
                 // Send user data to the server
                 sendUserData(registerUsername.val(), registerPassword.val(), registerEmail.val(), registerAge.val(), 0);
-                console.log('obradi reg')
+                
             })
         })
         

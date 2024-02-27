@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title>User Content</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="public/styles.css"/>
 </head>
@@ -15,22 +15,30 @@
     </div>
     <!--This Is the container for editing users, visible only if the dynamically generated edit button gets clicked-->
     <div style="display: none;" id="edit_user_container" class="edit_user_container">
-        <img id="close_btn" class="close_button" src="public/resources/close.png"/>
-        <h6>Enter Your New Information</h6>
-         <form class="edit_form">
-            <h1 id="user_h"></h1>
-            <input id="new_username_input" type="text" placeholder="Enter New Username">
-            <input id="new_age_input" type="number" placeholder="Enter New Age"/>
-            <input id="new_email_input" type="email" placeholder="Enter New Email"/>
-            <input id="edit_trigger" type="submit">
-         </form>
-         <div id="change_pass_toggle">Change Users Password</div>
-         <div style="display: none;" id="change_pass_container" class="change_pass_container">
-                <input id="new_pass" type="password">
-                <input id="change_pass_trigger" type="submit">
-            </div>
-            <div id="delete_user_toggle">Delete User</div>
-            <input style="display: none;" id="delete_trigger" type="submit" value="Are You Sure?"/>
+    <img id="close_btn" class="close_button" src="public/resources/close.png"/>
+    <form class="edit_form">
+        <h1 id="user_h" class="user_heading"></h1>
+        <div class="form_group">
+            <label for="new_username_input" class="form_label">Enter New Username</label>
+            <input id="new_username_input" type="text" class="form_input" placeholder="Enter New Username">
+        </div>
+        <div class="form_group">
+            <label for="new_age_input" class="form_label">Enter New Age</label>
+            <input id="new_age_input" type="number" class="form_input" placeholder="Enter New Age"/>
+        </div>
+        <div class="form_group">
+            <label for="new_email_input" class="form_label">Enter New Email</label>
+            <input id="new_email_input" type="email" class="form_input" placeholder="Enter New Email"/>
+        </div>       
+        <input id="edit_trigger" type="submit" class="submit_button" value="Edit"/>
+        <div id="change_pass_toggle" class="form_label">Change Users Password</div>
+        <div style="display: none;" id="change_pass_container" class="change_pass_container">
+            <input id="new_pass" type="password" class="form_input">
+            <input id="change_pass_trigger" type="submit" class="submit_button" value="Confirm">
+        </div>
+        <div id="delete_user_toggle" class="form_label">Delete User</div>
+        <input style="display: none;" id="delete_trigger" type="submit" class="submit_button" value="Are You Sure?"/>
+    </form>
     </div>
     <script>
         let closeButton = $("#close_btn")
@@ -85,6 +93,7 @@
                     },
                     success: function(response) {
                         // Handle success response
+                        alert('sucess');
                         console.log(response);
                     },
                     error: function(xhr, status, error) {
@@ -208,10 +217,7 @@
         $('document').ready(function(){
             getUserData();
             // Add event listener for beforeunload event
-            window.addEventListener('beforeunload', function(event) {
-                // Call the function to end all sessions
-                endAllSessions();
-            });
+         
         })
     </script>
 </body>

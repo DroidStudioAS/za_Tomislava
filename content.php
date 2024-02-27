@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in and isAdmin is set
-if(isset($_SESSION['user_id']) && isset($_SESSION['user_is_admin'])) {
+if(isset($_SESSION['user_is_admin'])) {
     // If user is an admin, show all users
     if($_SESSION['user_is_admin'] == 1) {
         // Include logic to display all users

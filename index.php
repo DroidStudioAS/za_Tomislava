@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title>Register</title>
     <!--Jquery import-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="public/styles.css"/>
@@ -97,6 +97,8 @@
                      // Handle success response
                      if(response.includes('Error')){
                         alert('Oops... Something went wrong.. Please Try Again')
+                     }else if(response.includes('is already in use')){
+                        alert("Email/Username already taken");
                      }else{
                         //set the username in the frontend session
                         sessionStorage.setItem('username',username);
@@ -152,8 +154,10 @@
 
             if(onRegister===true){
                 toggleButton.text('Already Have An Account? Click Here To Login!')
+                document.title="Register"
             }else{
                 toggleButton.text('Dont Have An Account? Click Here To Register!')
+                document.title="Login"
             }        
         })
 

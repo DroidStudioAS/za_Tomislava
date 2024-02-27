@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title>Admin Content</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="public/styles.css"/>
 </head>
 <body>
-    <!-- Your HTML content here -->
     <h1>Hello, admin!</h1>
     <!--This div gets dynamically filled with users fetched onPageLoad-->
     <div class="user_container" id="user_container">
@@ -47,7 +46,7 @@
         <div id="delete_user_toggle" class="form_label">Delete User</div>
         <input style="display: none;" id="delete_trigger" type="submit" class="submit_button" value="Are You Sure?"/>
     </form>
-</div>
+    </div>
     <script>
         let userContainer = $("#user_container");
         let editContainer = $("#edit_user_container")
@@ -75,10 +74,13 @@
                 $('#radio-group').css('display','none');
                 $('#make_admin_header').css('display','none');
                 $('#delete_user_toggle').css('display','none');
+                $("#edit_trigger").css('display','none')
              }else{
                 $('#radio-group').css('display','flex');
                 $('#make_admin_header').css('display','block');
                 $('#delete_user_toggle').css('display','block');
+                $("#edit_trigger").css('display','block')
+
              }
              /*****Edit Form OnClickListeners****/
              //delete user logic
@@ -87,9 +89,9 @@
              });
              //edit password logic
              $("#change_pass_trigger").off('click').on('click',function(e){
-                    e.preventDefault()
                     if($("#new_pass").val()===""){
                         alert('Do Not Set An Empty String As A Password!')
+                        e.preventDefault()
                         return;
                     }else{
                         changePassword(user.id,$("#new_pass").val());
@@ -237,6 +239,7 @@
                     },
                     success: function(response) {
                         // Handle success response
+                        alert('sucess')
                         console.log(response);
                     },
                     error: function(xhr, status, error) {
@@ -265,11 +268,7 @@
     
     $('document').ready(function(){
         getAllUsers();
-         // Add event listener for beforeunload event
-         window.addEventListener('beforeunload', function(event) {
-        // Call the function to end all sessions
-        endAllSessions();
-            });
+      
        
     })
     </script>

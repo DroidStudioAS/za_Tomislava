@@ -10,6 +10,27 @@
     <!-- Your HTML content here -->
     <h1>Hello, admin!</h1>
     <script>
+
+        /*****Asynch Functions*******/
+        function getAllUsers() {
+              $.ajax({
+                  type: 'GET',
+                  url: 'api/fetch_user_data.php',
+                  success: function(response) {
+                      // Handle success response
+                      console.log(response);
+                      // Process the data as needed
+                  },
+                  error: function(xhr, status, error) {
+                      // Handle error
+                      console.error(xhr.responseText);
+                  }
+              });
+        }
+
+    $('document').ready(function(){
+        getAllUsers();
+    })
     </script>
 </body>
 </html>

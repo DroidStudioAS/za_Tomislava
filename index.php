@@ -58,11 +58,11 @@
         //status 1-check reg input status 2-check login input
         function validateInput(status){
             if(status===1){
-                if(registerUsername==="" || registerPassword==="" || registerEmail==="" || registerAge===""){
+                if(registerUsername.val()==="" || registerPassword.val()==="" || registerEmail.val()==="" || registerAge.val()===""){
                     alert('Please Fill Out The Entire Registration Form')
                     return false;
                 }
-                if(registerPassword.length<6){
+                if(registerPassword.val().length<6){
                     alert('For Your Safety, Select A Password That Is At Least 6 Charachters Long');
                     return false;
                 }

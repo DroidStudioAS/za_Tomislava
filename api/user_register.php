@@ -1,7 +1,9 @@
 <?php
 require('../models/user.php');
 
+/****Helper Functions*******/
 function isUsernameTaken($username) {
+    session_start();
     // Connect to the database
     $server_name = 'localhost';
     $username_db = 'root';
@@ -77,7 +79,7 @@ function isEmailTaken($email) {
 
 
 }
-
+/****End Of Helper Functions*******/
 function registerUser($username, $password, $email, $age, $isAdmin) {
     // Check if the username is already taken
     if (isUsernameTaken($username)) {
@@ -114,7 +116,7 @@ function registerUser($username, $password, $email, $age, $isAdmin) {
     if ($stmt->execute() === TRUE) {
         echo 'New record created successfully';
         //save admin status to session;
-        $_SESSION['user_is_admin'] = $isAdmin;
+        $_SESSION['user_is_admin'] = 0;
     } else {
         echo "Error: " . $stmt->error;
     }
